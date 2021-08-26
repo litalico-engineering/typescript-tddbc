@@ -41,7 +41,7 @@
 
 
 # 参考資料
-- [TDDBC 和田卓人さんのライブコーディング動画]https://www.youtube.com/watch?v=Q-FJ3XmFlT8&t=1855s
+- [TDDBC 和田卓人さんのライブコーディング動画](https://www.youtube.com/watch?v=Q-FJ3XmFlT8&t=1855s)
 - [テスト駆動開発(訳者 和田卓人さん)](https://www.amazon.co.jp/dp/B077D2L69C/)
 
 # 備考
