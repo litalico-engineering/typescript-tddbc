@@ -7,9 +7,13 @@ export class VendingMachine implements IVendingMachine {
   /**
    * お金を投入する
    */
-  insert: (money: number) => void;
+  insert(money: number) {
+    return;
+  }
   /**
    * 払い戻し
    */
-  refund: () => number;
+  refund() {
+    return 0;
+  }
 }
