@@ -5,7 +5,6 @@ interface IVendingMachine {
 }
 
 export class VendingMachine implements IVendingMachine {
-  
   private _storage: number = 0;
 
   get total() {
@@ -22,6 +21,6 @@ export class VendingMachine implements IVendingMachine {
    * 払い戻し
    */
   refund() {
-    return 0;
+    return this._storage;
   }
 }
