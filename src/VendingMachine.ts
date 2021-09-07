@@ -21,6 +21,8 @@ export class VendingMachine implements IVendingMachine {
    * 払い戻し
    */
   refund() {
-    return this._storage;
+    const change = this._storage;
+    this._storage = 0;
+    return change;
   }
 }
