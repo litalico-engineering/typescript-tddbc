@@ -2,7 +2,7 @@ type Money = 1 | 5 | 10 | 50 | 100 | 500 | 1000 | 2000 | 5000 | 10000;
 
 interface IVendingMachine {
   total: number;
-  insert: (money: Money) => Money;
+  insert: (money: Money) => Money | null;
   refund: () => number;
 }
 
@@ -15,9 +15,13 @@ export class VendingMachine implements IVendingMachine {
   /**
    * お金を投入する
    */
-  insert(money: Money): Money {
+  insert(money: Money): Money | null {
+    if(money === 1 || money === 5 || money === 2000 || money === 5000 || money === 10000) {
+      return money;
+    }
+
     this._storage += money;
-    return money;
+    return null;
   }
   /**
    * 払い戻し

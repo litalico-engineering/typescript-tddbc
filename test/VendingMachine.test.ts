@@ -6,11 +6,31 @@ test("newできる", () => {
 
 test("お金を投入できる", () => {
   const vm = new VendingMachine();
-  expect(vm.insert(10)).toEqual(10);
-  expect(vm.insert(50)).toEqual(50);
-  expect(vm.insert(100)).toEqual(100);
-  expect(vm.insert(500)).toEqual(500);
-  expect(vm.insert(1000)).toEqual(1000);
+  vm.insert(10);
+  vm.insert(50);
+  vm.insert(100);
+  vm.insert(500);
+  vm.insert(1000);
+
+  expect(vm.total).toEqual(1660);
+});
+
+test("対応しているお金を投入するとnullが返る", () => {
+  const vm = new VendingMachine();
+  expect(vm.insert(10)).toBeNull();
+});
+
+test("非対応のお金を投入", () => {
+  const vm = new VendingMachine();
+  vm.insert(10);
+
+  expect(vm.insert(1)).toEqual(1);
+  expect(vm.insert(5)).toEqual(5);
+  expect(vm.insert(2000)).toEqual(2000);
+  expect(vm.insert(5000)).toEqual(5000);
+  expect(vm.insert(10000)).toEqual(10000); 
+
+  expect(vm.total).toEqual(10);
 });
 
 test("投入金額", () => {
