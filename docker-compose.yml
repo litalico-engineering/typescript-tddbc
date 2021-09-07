@@ -3,10 +3,8 @@ version: "3.8"
 services: 
   node:
     build: ./
+    command: npm test -- --watchAll
     volumes: 
       - ./:/app
-      - node_modules:/app/node_modules
+      - /app/node_modules
     tty: true
-
-volumes:
-  node_modules:
