@@ -59,6 +59,20 @@ describe("払い戻しできる", () => {
   });
 });
 
+describe("在庫", () => {
+  const vm = new VendingMachine();
+  const juice1 = new Juice();
+  const juice2 = new Juice();
+  const juice3 = new Juice();
+  const juice4 = new Juice();
+  const juice5 = new Juice();
+
+
+  test("在庫を取得できる", () => {
+    expect(vm.stock).toEqual([juice1, juice2, juice3, juice4, juice5])
+  });
+});
+
 describe("ジュース", () => {
   test("名前がある", () => {
     const juice = new Juice();
@@ -69,7 +83,6 @@ describe("ジュース", () => {
     const juice = new Juice();
     expect(juice.price).toEqual(120);
   })
-
 })
 
 // ステップ２　ジュースの管理

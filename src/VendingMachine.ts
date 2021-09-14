@@ -8,9 +8,24 @@ interface IVendingMachine {
 
 export class VendingMachine implements IVendingMachine {
   private _storage: number = 0;
+  private _stock: Juice[] = [];
+
+  constructor() {
+    const juice1 = new Juice();
+    const juice2 = new Juice();
+    const juice3 = new Juice();
+    const juice4 = new Juice();
+    const juice5 = new Juice();
+
+    this._stock = [juice1, juice2, juice3, juice4, juice5];
+  }
 
   get total() {
     return this._storage;
+  }
+
+  get stock() {
+    return this._stock;
   }
   /**
    * お金を投入する
