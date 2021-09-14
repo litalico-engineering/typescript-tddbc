@@ -8,16 +8,10 @@ interface IVendingMachine {
 
 export class VendingMachine implements IVendingMachine {
   private _storage: number = 0;
-  private _stock: Juice[] = [];
+  private _stock: Juices = null;
 
-  constructor() {
-    const juice1 = new Juice();
-    const juice2 = new Juice();
-    const juice3 = new Juice();
-    const juice4 = new Juice();
-    const juice5 = new Juice();
-
-    this._stock = [juice1, juice2, juice3, juice4, juice5];
+  constructor(stock: Juices = new Juices()) {
+    this._stock = stock;
   }
 
   get total() {
@@ -31,7 +25,13 @@ export class VendingMachine implements IVendingMachine {
    * お金を投入する
    */
   insert(money: Money): Money | null {
-    if (money === 1 || money === 5 || money === 2000 || money === 5000 || money === 10000) {
+    if (
+      money === 1 ||
+      money === 5 ||
+      money === 2000 ||
+      money === 5000 ||
+      money === 10000
+    ) {
       return money;
     }
 
@@ -53,8 +53,13 @@ export class Juice {
   price: number; // 円
 
   constructor() {
-    this.name = "コーラ"
+    this.name = "コーラ";
     this.price = 120;
   }
+}
 
+export class Juices extends Array<Juice> {
+  get stock() {
+    return this.length;
+  }
 }

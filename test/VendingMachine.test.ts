@@ -1,4 +1,4 @@
-import { VendingMachine, Juice } from "../src/VendingMachine";
+import { VendingMachine, Juice, Juices } from "../src/VendingMachine";
 
 test("newできる", () => {
   expect(new VendingMachine()).toBeDefined();
@@ -60,16 +60,24 @@ describe("払い戻しできる", () => {
 });
 
 describe("在庫", () => {
-  const vm = new VendingMachine();
-  const juice1 = new Juice();
-  const juice2 = new Juice();
-  const juice3 = new Juice();
-  const juice4 = new Juice();
-  const juice5 = new Juice();
+  const stocks = new Juices(
+    new Juice(),
+    new Juice(),
+    new Juice(),
+    new Juice(),
+    new Juice(),
+  );
+  const vm = new VendingMachine(stocks);
 
+  test("在庫は5つである", () => {
+    expect(vm.stock.length).toEqual(5);
+  });
 
-  test("在庫を取得できる", () => {
-    expect(vm.stock).toEqual([juice1, juice2, juice3, juice4, juice5])
+  test("在庫のジュースの名前と値段は正しいものである", () => {
+    vm.stock.map((juice) => {
+      expect(juice.name).toEqual("コーラ");
+      expect(juice.price).toEqual(120);
+    });
   });
 });
 
@@ -77,13 +85,13 @@ describe("ジュース", () => {
   test("名前がある", () => {
     const juice = new Juice();
     expect(juice.name).toEqual("コーラ");
-  })
+  });
 
   test("値段がある", () => {
     const juice = new Juice();
     expect(juice.price).toEqual(120);
-  })
-})
+  });
+});
 
 // ステップ２　ジュースの管理
 // * 値段と名前の属性からなるジュースを１種類格納できる。初期状態で、コーラ（値段:120円、名前”コーラ”）を5本格納している。
