@@ -1,10 +1,11 @@
-import { VendingMachine, Juice, Juices } from "../src/VendingMachine";
+import { Juice, Juices } from '../src/Juice';
+import { VendingMachine } from '../src/VendingMachine';
 
-test("newできる", () => {
+test('newできる', () => {
   expect(new VendingMachine()).toBeDefined();
 });
 
-test("お金を投入できる", () => {
+test('お金を投入できる', () => {
   const vm = new VendingMachine();
   vm.insert(10);
   vm.insert(50);
@@ -15,12 +16,12 @@ test("お金を投入できる", () => {
   expect(vm.total).toEqual(1660);
 });
 
-test("対応しているお金を投入するとnullが返る", () => {
+test('対応しているお金を投入するとnullが返る', () => {
   const vm = new VendingMachine();
   expect(vm.insert(10)).toBeNull();
 });
 
-test("非対応のお金を投入", () => {
+test('非対応のお金を投入', () => {
   const vm = new VendingMachine();
   vm.insert(10);
 
@@ -33,14 +34,14 @@ test("非対応のお金を投入", () => {
   expect(vm.total).toEqual(10);
 });
 
-test("投入金額", () => {
+test('投入金額', () => {
   const vm = new VendingMachine();
   vm.insert(10);
   vm.insert(1000);
   expect(vm.total).toEqual(1010);
 });
 
-describe("払い戻しできる", () => {
+describe('払い戻しできる', () => {
   let vm = null;
 
   beforeEach(() => {
@@ -49,17 +50,17 @@ describe("払い戻しできる", () => {
     vm.insert(1000);
   });
 
-  test("合計金額が出力される", () => {
+  test('合計金額が出力される', () => {
     expect(vm.refund()).toEqual(1010);
   });
 
-  test("払い戻しされた後は合計金額は0円である", () => {
+  test('払い戻しされた後は合計金額は0円である', () => {
     vm.refund();
     expect(vm.total).toEqual(0);
   });
 });
 
-describe("在庫", () => {
+describe('在庫', () => {
   const stocks = new Juices(
     new Juice(),
     new Juice(),
@@ -69,25 +70,25 @@ describe("在庫", () => {
   );
   const vm = new VendingMachine(stocks);
 
-  test("在庫は5つである", () => {
+  test('在庫は5つである', () => {
     expect(vm.stock.length).toEqual(5);
   });
 
-  test("在庫のジュースの名前と値段は正しいものである", () => {
+  test('在庫のジュースの名前と値段は正しいものである', () => {
     vm.stock.map((juice) => {
-      expect(juice.name).toEqual("コーラ");
+      expect(juice.name).toEqual('コーラ');
       expect(juice.price).toEqual(120);
     });
   });
 });
 
-describe("ジュース", () => {
-  test("名前がある", () => {
+describe('ジュース', () => {
+  test('名前がある', () => {
     const juice = new Juice();
-    expect(juice.name).toEqual("コーラ");
+    expect(juice.name).toEqual('コーラ');
   });
 
-  test("値段がある", () => {
+  test('値段がある', () => {
     const juice = new Juice();
     expect(juice.price).toEqual(120);
   });
