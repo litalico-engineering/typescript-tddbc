@@ -16,7 +16,7 @@ export class VendingMachine implements IVendingMachine {
    * お金を投入する
    */
   insert(money: Money): Money | null {
-    if(money === 1 || money === 5 || money === 2000 || money === 5000 || money === 10000) {
+    if (money === 1 || money === 5 || money === 2000 || money === 5000 || money === 10000) {
       return money;
     }
 
@@ -31,4 +31,15 @@ export class VendingMachine implements IVendingMachine {
     this._storage = 0;
     return change;
   }
+}
+
+export class Juice {
+  name: string;
+  price: number; // 円
+
+  constructor() {
+    this.name = "コーラ"
+    this.price = 120;
+  }
+
 }
