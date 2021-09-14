@@ -51,9 +51,17 @@
 全員がドライバー回せるかは状況次第です。回らなかった場合は次週の勉強会で優先的にドライバーをやってもらおうと思っています。
 
 # プロジェクト開始方法
+
+## docker-compose
 ```sh
-$ bash docker-build.sh
+$ docker compose up --build
 ...building image...
+...jestのwatchモードが動き出す...
+$ docker compose exec node bash # shell入りたいとき
+```
+
+## docker
+```sh
 $ bash docker-run.sh
 // run docker container
 // tsc --watch /app/src/index.ts
@@ -62,3 +70,4 @@ $ bash docker-login.sh
 # npm test
 // jest
 ```
+
