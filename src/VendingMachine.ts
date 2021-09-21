@@ -11,6 +11,7 @@ interface IVendingMachine {
 
 export class VendingMachine implements IVendingMachine {
   private _storage: number = 0;
+  private _sales: number = 0;
   private _stock: Juices = null;
 
   constructor(stock: Juices = new Juices()) {
@@ -23,6 +24,10 @@ export class VendingMachine implements IVendingMachine {
 
   get stock() {
     return this._stock;
+  }
+
+  get sales() {
+    return this._sales;
   }
 
   /**

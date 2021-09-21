@@ -60,6 +60,11 @@ describe("払い戻しできる", () => {
   });
 });
 
+test("売上", () => {
+  const vm = new VendingMachine();
+  expect(vm.sales).toEqual(0);
+});
+
 describe("在庫", () => {
   const stocks = new Juices(
     new Juice(),
