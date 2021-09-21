@@ -1,4 +1,4 @@
-import { Juice, Juices } from './Juice';
+import { Juice, Juices } from "./Juice";
 
 type Money = 1 | 5 | 10 | 50 | 100 | 500 | 1000 | 2000 | 5000 | 10000;
 
@@ -6,6 +6,7 @@ interface IVendingMachine {
   total: number;
   insert: (money: Money) => Money | null;
   refund: () => number;
+  canSupply: () => boolean;
 }
 
 export class VendingMachine implements IVendingMachine {
@@ -23,6 +24,7 @@ export class VendingMachine implements IVendingMachine {
   get stock() {
     return this._stock;
   }
+
   /**
    * お金を投入する
    */
@@ -40,6 +42,7 @@ export class VendingMachine implements IVendingMachine {
     this._storage += money;
     return null;
   }
+
   /**
    * 払い戻し
    */
@@ -47,5 +50,14 @@ export class VendingMachine implements IVendingMachine {
     const change = this._storage;
     this._storage = 0;
     return change;
+  }
+
+  /**
+   * 購入できる？
+   *
+   * @return true: できるよ！, false: できないぞ！
+   */
+  canSupply(): boolean {
+    return this._storage >= 120 && this._stock.length > 0;
   }
 }
