@@ -164,6 +164,15 @@ describe("購入", () => {
 
     expect(vm.refund()).toEqual(10);
   })
+
+  test("購入するとジュースが得られる", () => {
+    const vm = new VendingMachine(stocks);
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+    vm.insert(10);
+    expect(vm.supply()).toBeInstanceOf(Juice)
+  })
 });
 
 describe("ジュース", () => {
