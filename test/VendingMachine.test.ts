@@ -105,6 +105,22 @@ describe("購入", () => {
     vm.insert(10);
     expect(vm.canSupply()).toEqual(false);
   });
+
+  test("在庫があるので購入できる", () => {
+    const vm = new VendingMachine(stocks);
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+    expect(vm.canSupply()).toEqual(true);
+  });
+
+  test("在庫がないので購入できない", () => {
+    const vm = new VendingMachine([]);
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+    expect(vm.canSupply()).toEqual(false);
+  });
 });
 
 describe("ジュース", () => {
