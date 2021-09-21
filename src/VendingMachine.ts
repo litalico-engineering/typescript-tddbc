@@ -72,5 +72,6 @@ export class VendingMachine implements IVendingMachine {
   supply(): void {
     const juice = this._stock.pop();
     this._sales += juice.price;
+    this._storage -= juice.price;
   }
 }
