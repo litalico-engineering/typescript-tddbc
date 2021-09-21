@@ -70,6 +70,7 @@ export class VendingMachine implements IVendingMachine {
    * 購入
    */
   supply(): void {
-    this._stock.pop();
+    const juice = this._stock.pop();
+    this._sales += juice.price;
   }
 }

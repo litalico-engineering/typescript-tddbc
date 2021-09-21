@@ -133,6 +133,27 @@ describe("購入", () => {
     vm.supply();
     expect(vm.stock.length).toEqual(1);
   });
+
+  test("売上金額が増える", () => {
+    const vm = new VendingMachine(stocks);
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+    vm.supply();
+
+    expect(vm.sales).toEqual(120);
+  });
+
+  test("購入後、釣銭がでる", () => {
+    const vm = new VendingMachine(stocks);
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+    vm.insert(10);
+    vm.supply();
+
+    expect(vm.refund()).toEqual(10);
+  })
 });
 
 describe("ジュース", () => {
