@@ -126,6 +126,13 @@ describe("購入", () => {
     vm.insert(10);
     expect(vm.canSupply()).toEqual(false);
   });
+
+  test("購入すると在庫が1つ減る", () => {
+    const stocks = new Juices(new Juice(), new Juice());
+    const vm = new VendingMachine(stocks);
+    vm.supply();
+    expect(vm.stock.length).toEqual(1);
+  });
 });
 
 describe("ジュース", () => {

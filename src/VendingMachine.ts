@@ -65,4 +65,11 @@ export class VendingMachine implements IVendingMachine {
   canSupply(): boolean {
     return this._storage >= 120 && this._stock.length > 0;
   }
+
+  /**
+   * 購入
+   */
+  supply(): void {
+    this._stock.pop();
+  }
 }
