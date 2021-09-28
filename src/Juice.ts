@@ -3,7 +3,7 @@ export class Juice {
   price: number; // 円
 
   constructor() {
-    this.name = 'コーラ';
+    this.name = "コーラ";
     this.price = 120;
   }
 }
