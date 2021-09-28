@@ -2,10 +2,10 @@ export class Juice {
   name: string;
   price: number; // 円
 
-  constructor() {
-    this.name = "コーラ";
-    this.price = 120;
+  constructor(name: string, price: number) {
+    this.name = name;
+    this.price = price;
   }
 }
 
-export class Juices extends Array<Juice> {}
+export class Juices extends Array<Juice> { }
