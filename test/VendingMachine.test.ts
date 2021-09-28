@@ -189,20 +189,27 @@ describe("購入", () => {
 
     const juice = vm.supply();
 
-    // vm.stockが変わらない
     expect(vm.stock.length).toEqual(stockLen);
-
-    // vm.storageが変わらない
     expect(vm.total).toEqual(storage);
-
-    // vm.salesが変わらない
     expect(vm.sales).toEqual(sales);
-
-    // vm.supplyが何も返さない
     expect(juice).toBeUndefined();
   });
 
-  test("投入金額が足りない場合", () => {});
+  test("投入金額が足りない場合", () => {
+    const stocks = new Juices(new Juice());
+    const vm = new VendingMachine(stocks);
+
+    const stockLen = vm.stock.length;
+    const storage = vm.total;
+    const sales = vm.sales;
+
+    const juice = vm.supply();
+
+    expect(vm.stock.length).toEqual(stockLen);
+    expect(vm.total).toEqual(storage);
+    expect(vm.sales).toEqual(sales);
+    expect(juice).toBeUndefined();
+  });
 });
 
 describe("ジュース", () => {
