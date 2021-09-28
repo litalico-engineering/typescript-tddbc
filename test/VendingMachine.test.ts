@@ -140,6 +140,9 @@ describe("購入", () => {
   test("購入すると在庫が1つ減る", () => {
     const stocks = new Juices(new Juice(), new Juice());
     const vm = new VendingMachine(stocks);
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
     vm.supply();
     expect(vm.stock.length).toEqual(1);
   });
@@ -179,11 +182,11 @@ describe("購入", () => {
     vm.insert(100);
     vm.insert(10);
     vm.insert(10);
-    
+
     const stockLen = vm.stock.length;
     const storage = vm.total;
     const sales = vm.sales;
-    
+
     const juice = vm.supply();
 
     // vm.stockが変わらない
