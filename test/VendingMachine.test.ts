@@ -126,7 +126,7 @@ describe("購入できるか？", () => {
     vm.insert(10);
     expect(vm.canSupply()).toEqual(false);
   });
-})
+});
 
 describe("購入", () => {
   const stocks = new Juices(
@@ -163,7 +163,7 @@ describe("購入", () => {
     vm.supply();
 
     expect(vm.refund()).toEqual(10);
-  })
+  });
 
   test("購入するとジュースが得られる", () => {
     const vm = new VendingMachine(stocks);
@@ -171,8 +171,22 @@ describe("購入", () => {
     vm.insert(10);
     vm.insert(10);
     vm.insert(10);
-    expect(vm.supply()).toBeInstanceOf(Juice)
-  })
+    expect(vm.supply()).toBeInstanceOf(Juice);
+  });
+
+  test("在庫がない場合", () => {
+    const vm = new VendingMachine([]);
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+    vm.supply();
+    // vm.stockが変わらない
+    // vm.storageが変わらない
+    // vm.salesが変わらない
+    // vm.supplyが何も返さない
+  });
+
+  test("投入金額が足りない場合", () => {});
 });
 
 describe("ジュース", () => {
