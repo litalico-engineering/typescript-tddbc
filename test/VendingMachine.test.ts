@@ -13,7 +13,7 @@ test("お金を投入できる", () => {
   vm.insert(500);
   vm.insert(1000);
 
-  expect(vm.total).toEqual(1660);
+  expect(vm.amountOfMoney).toEqual(1660);
 });
 
 test("対応しているお金を投入するとnullが返る", () => {
@@ -31,14 +31,14 @@ test("非対応のお金を投入", () => {
   expect(vm.insert(5000)).toEqual(5000);
   expect(vm.insert(10000)).toEqual(10000);
 
-  expect(vm.total).toEqual(10);
+  expect(vm.amountOfMoney).toEqual(10);
 });
 
 test("投入金額", () => {
   const vm = new VendingMachine();
   vm.insert(10);
   vm.insert(1000);
-  expect(vm.total).toEqual(1010);
+  expect(vm.amountOfMoney).toEqual(1010);
 });
 
 describe("払い戻しできる", () => {
@@ -56,7 +56,7 @@ describe("払い戻しできる", () => {
 
   test("払い戻しされた後は合計金額は0円である", () => {
     vm.refund();
-    expect(vm.total).toEqual(0);
+    expect(vm.amountOfMoney).toEqual(0);
   });
 });
 
@@ -184,13 +184,13 @@ describe("購入", () => {
     vm.insert(10);
 
     const stockLen = vm.stock.length;
-    const storage = vm.total;
+    const storage = vm.amountOfMoney;
     const sales = vm.sales;
 
     const juice = vm.supply();
 
     expect(vm.stock.length).toEqual(stockLen);
-    expect(vm.total).toEqual(storage);
+    expect(vm.amountOfMoney).toEqual(storage);
     expect(vm.sales).toEqual(sales);
     expect(juice).toBeUndefined();
   });
@@ -200,13 +200,13 @@ describe("購入", () => {
     const vm = new VendingMachine(stocks);
 
     const stockLen = vm.stock.length;
-    const storage = vm.total;
+    const storage = vm.amountOfMoney;
     const sales = vm.sales;
 
     const juice = vm.supply();
 
     expect(vm.stock.length).toEqual(stockLen);
-    expect(vm.total).toEqual(storage);
+    expect(vm.amountOfMoney).toEqual(storage);
     expect(vm.sales).toEqual(sales);
     expect(juice).toBeUndefined();
   });

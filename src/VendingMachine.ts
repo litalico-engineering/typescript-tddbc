@@ -3,14 +3,14 @@ import { Juice, Juices } from "./Juice";
 type Money = 1 | 5 | 10 | 50 | 100 | 500 | 1000 | 2000 | 5000 | 10000;
 
 interface IVendingMachine {
-  total: number;
+  amountOfMoney: number;
   insert: (money: Money) => Money | null;
   refund: () => number;
   canSupply: () => boolean;
 }
 
 export class VendingMachine implements IVendingMachine {
-  private _storage: number = 0;
+  private _amountOfMoney: number = 0;
   private _sales: number = 0;
   private _stock: Juices = null;
 
@@ -18,8 +18,8 @@ export class VendingMachine implements IVendingMachine {
     this._stock = stock;
   }
 
-  get total() {
-    return this._storage;
+  get amountOfMoney() {
+    return this._amountOfMoney;
   }
 
   get stock() {
@@ -44,7 +44,7 @@ export class VendingMachine implements IVendingMachine {
       return money;
     }
 
-    this._storage += money;
+    this._amountOfMoney += money;
     return null;
   }
 
@@ -52,8 +52,8 @@ export class VendingMachine implements IVendingMachine {
    * 払い戻し
    */
   refund() {
-    const change = this._storage;
-    this._storage = 0;
+    const change = this._amountOfMoney;
+    this._amountOfMoney = 0;
     return change;
   }
 
@@ -63,20 +63,20 @@ export class VendingMachine implements IVendingMachine {
    * @return true: できるよ！, false: できないぞ！
    */
   canSupply(): boolean {
-    return this._storage >= 120 && this._stock.length > 0;
+    return this._amountOfMoney >= 120 && this._stock.length > 0;
   }
 
   /**
    * 購入
    */
   supply(): Juice {
-    if(!this.canSupply()) {
+    if (!this.canSupply()) {
       return;
     }
 
     const juice = this._stock.pop();
     this._sales += juice.price;
-    this._storage -= juice.price;
+    this._amountOfMoney -= juice.price;
     return juice;
   }
 }
