@@ -179,11 +179,24 @@ describe("購入", () => {
     vm.insert(100);
     vm.insert(10);
     vm.insert(10);
-    vm.supply();
+    
+    const stockLen = vm.stock.length;
+    const storage = vm.total;
+    const sales = vm.sales;
+    
+    const juice = vm.supply();
+
     // vm.stockが変わらない
+    expect(vm.stock.length).toEqual(stockLen);
+
     // vm.storageが変わらない
+    expect(vm.total).toEqual(storage);
+
     // vm.salesが変わらない
+    expect(vm.sales).toEqual(sales);
+
     // vm.supplyが何も返さない
+    expect(juice).toBeUndefined();
   });
 
   test("投入金額が足りない場合", () => {});
