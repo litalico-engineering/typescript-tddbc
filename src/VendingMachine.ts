@@ -70,6 +70,10 @@ export class VendingMachine implements IVendingMachine {
    * 購入
    */
   supply(): Juice {
+    if(!this.canSupply()) {
+      return;
+    }
+    
     const juice = this._stock.pop();
     this._sales += juice.price;
     this._storage -= juice.price;
