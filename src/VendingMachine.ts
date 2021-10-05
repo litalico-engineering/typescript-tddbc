@@ -86,4 +86,20 @@ export class VendingMachine implements IVendingMachine {
   restock(juices: Juices): void {
     this._stock = [...this._stock, ...juices];
   }
+
+  /**
+   * 購入できる商品名返す
+   *
+   * @return 商品名の配列
+   */
+
+  suppliableJuiceTypes(): string[] {
+    const types = []
+    this.stock.forEach((juice, index) => {
+      if (this._amountOfMoney >=  juice.price) {
+        types.push(juice.name);
+      }
+    });
+    return types;
+  }
 }
