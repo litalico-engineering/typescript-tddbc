@@ -278,6 +278,26 @@ describe("ジュース補充", () => {
   });
 });
 
+describe("購入可能なドリンク", () => {
+  const vm = new VendingMachine(
+    new Juices(
+        new Juice("コーラ", 120),
+        new Juice("コーラ", 120),
+        new Juice("レッドブル", 200),
+        new Juice("レッドブル", 200),
+        new Juice("水", 100),
+        new Juice("水", 100)
+      )
+  );
+
+  vm.insert(1000);
+
+  const types: string[] = vm.suppliableJuiceTypes();
+  expect(types[0]).toEqual("コーラ");
+  expect(types[1]).toEqual("レッドブル");
+  expect(types[2]).toEqual("水");
+})
+
 // ステップ3
 // - [x] 投入金額、在庫の点で、コーラが購入できるかどうかを取得できる。
 // - [x] ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、ジュースの在庫を減らし、売り上げ金額を増やす。
