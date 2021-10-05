@@ -67,11 +67,11 @@ test("売上", () => {
 
 describe("在庫", () => {
   const stocks = new Juices(
-    new Juice(),
-    new Juice(),
-    new Juice(),
-    new Juice(),
-    new Juice()
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120)
   );
   const vm = new VendingMachine(stocks);
 
@@ -89,11 +89,11 @@ describe("在庫", () => {
 
 describe("購入できるか？", () => {
   const stocks = new Juices(
-    new Juice(),
-    new Juice(),
-    new Juice(),
-    new Juice(),
-    new Juice()
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120)
   );
 
   test("金額が条件を満たしていれば購入できる", () => {
@@ -130,15 +130,15 @@ describe("購入できるか？", () => {
 
 describe("購入", () => {
   const stocks = new Juices(
-    new Juice(),
-    new Juice(),
-    new Juice(),
-    new Juice(),
-    new Juice()
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120),
+    new Juice("コーラ", 120)
   );
 
   test("購入すると在庫が1つ減る", () => {
-    const stocks = new Juices(new Juice(), new Juice());
+    const stocks = new Juices(new Juice("コーラ", 120), new Juice("コーラ", 120));
     const vm = new VendingMachine(stocks);
     vm.insert(100);
     vm.insert(10);
@@ -196,7 +196,7 @@ describe("購入", () => {
   });
 
   test("投入金額が足りない場合", () => {
-    const stocks = new Juices(new Juice());
+    const stocks = new Juices(new Juice("コーラ", 120));
     const vm = new VendingMachine(stocks);
 
     const stockLen = vm.stock.length;
@@ -214,12 +214,12 @@ describe("購入", () => {
 
 describe("ジュース", () => {
   test("名前がある", () => {
-    const juice = new Juice();
+    const juice = new Juice("コーラ", 120);
     expect(juice.name).toEqual("コーラ");
   });
 
   test("値段がある", () => {
-    const juice = new Juice();
+    const juice = new Juice("コーラ", 120);
     expect(juice.price).toEqual(120);
   });
 });
