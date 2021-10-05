@@ -79,4 +79,11 @@ export class VendingMachine implements IVendingMachine {
     this._amountOfMoney -= juice.price;
     return juice;
   }
+
+  /**
+   * 在庫の補充
+   * */
+  restock(juices: Juices): void {
+    this._stock = [...this._stock, ...juices];
+  }
 }
