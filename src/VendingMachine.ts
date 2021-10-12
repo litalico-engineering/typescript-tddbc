@@ -2,14 +2,7 @@ import { Juice, Juices } from "./Juice";
 
 type Money = 1 | 5 | 10 | 50 | 100 | 500 | 1000 | 2000 | 5000 | 10000;
 
-interface IVendingMachine {
-  amountOfMoney: number;
-  insert: (money: Money) => Money | null;
-  refund: () => number;
-  canSupply: () => boolean;
-}
-
-export class VendingMachine implements IVendingMachine {
+export class VendingMachine {
   private _amountOfMoney: number = 0;
   private _sales: number = 0;
   private _stock: Juices = null;
@@ -62,7 +55,7 @@ export class VendingMachine implements IVendingMachine {
    *
    * @return true: できるよ！, false: できないぞ！
    */
-  canSupply(): boolean {
+  canSupply(name: string): boolean {
     return this._amountOfMoney >= 120 && this._stock.length > 0;
   }
 
@@ -70,7 +63,7 @@ export class VendingMachine implements IVendingMachine {
    * 購入
    */
   supply(name: string): [Juice, number] | undefined {
-    if (!this.canSupply()) {
+    if (!this.canSupply(name)) {
       return;
     }
 
