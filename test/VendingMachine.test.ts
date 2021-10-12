@@ -213,6 +213,16 @@ describe("購入", () => {
     expect(vm.sales).toEqual(sales);
     expect(juice).toBeUndefined();
   });
+
+  test("150円投入で水を購入した場合、釣り銭50円が出力される", () => {
+    const stocks = new Juices(new Juice("水", 100));
+    const vm = new VendingMachine(stocks);
+    vm.insert(100)
+    vm.insert(50)
+
+    const [juice, remain] = vm.supply()
+    expect(remain).toEqual(50)
+  })
 });
 
 describe("ジュース", () => {
@@ -281,13 +291,13 @@ describe("ジュース補充", () => {
 describe("購入可能なドリンク", () => {
   const vm = new VendingMachine(
     new Juices(
-        new Juice("コーラ", 120),
-        new Juice("コーラ", 120),
-        new Juice("レッドブル", 200),
-        new Juice("レッドブル", 200),
-        new Juice("水", 100),
-        new Juice("水", 100)
-      )
+      new Juice("コーラ", 120),
+      new Juice("コーラ", 120),
+      new Juice("レッドブル", 200),
+      new Juice("レッドブル", 200),
+      new Juice("水", 100),
+      new Juice("水", 100)
+    )
   );
 
   vm.insert(1000);
@@ -313,6 +323,6 @@ describe("購入可能なドリンク", () => {
 // - [x] 投入金額、在庫の点で購入可能なドリンクのリストを取得できる。
 
 // ステップ５
-// - ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、釣り銭（投入金額とジュース値段の差分）を出力する。
+// - [ ] ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、釣り銭（投入金額とジュース値段の差分）を出力する。
 //   - ジュースと投入金額が同じ場合、つまり、釣り銭0円の場合も、釣り銭0円と出力する。
 //   - 釣り銭の硬貨の種類は考慮しなくてよい。
