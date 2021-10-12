@@ -69,7 +69,7 @@ export class VendingMachine implements IVendingMachine {
   /**
    * 購入
    */
-  supply(): [Juice, number] | undefined {
+  supply(name: string): [Juice, number] | undefined {
     if (!this.canSupply()) {
       return;
     }
