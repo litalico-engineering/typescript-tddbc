@@ -94,12 +94,12 @@ export class VendingMachine implements IVendingMachine {
    */
 
   suppliableJuiceTypes(): string[] {
-    const types = []
+    const types = new Set<string>()
     this.stock.forEach((juice, index) => {
       if (this._amountOfMoney >=  juice.price) {
-        types.push(juice.name);
+        types.add(juice.name);
       }
     });
-    return types;
+    return [...types.values()];
   }
 }
