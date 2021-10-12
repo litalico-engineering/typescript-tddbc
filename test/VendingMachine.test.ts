@@ -101,14 +101,14 @@ describe("購入できるか？", () => {
     vm.insert(100);
     vm.insert(10);
     vm.insert(10);
-    expect(vm.canSupply()).toEqual(true);
+    expect(vm.canSupply("コーラ")).toEqual(true);
   });
 
   test("金額が条件を満たしていなければ購入できない", () => {
     const vm = new VendingMachine(stocks);
     vm.insert(100);
     vm.insert(10);
-    expect(vm.canSupply()).toEqual(false);
+    expect(vm.canSupply("コーラ")).toEqual(false);
   });
 
   test("在庫があるので購入できる", () => {
@@ -116,7 +116,7 @@ describe("購入できるか？", () => {
     vm.insert(100);
     vm.insert(10);
     vm.insert(10);
-    expect(vm.canSupply()).toEqual(true);
+    expect(vm.canSupply("コーラ")).toEqual(true);
   });
 
   test("在庫がないので購入できない", () => {
@@ -124,7 +124,7 @@ describe("購入できるか？", () => {
     vm.insert(100);
     vm.insert(10);
     vm.insert(10);
-    expect(vm.canSupply()).toEqual(false);
+    expect(vm.canSupply("コーラ")).toEqual(false);
   });
 });
 
