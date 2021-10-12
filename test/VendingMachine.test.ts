@@ -146,7 +146,7 @@ describe("購入", () => {
     vm.insert(100);
     vm.insert(10);
     vm.insert(10);
-    vm.supply();
+    vm.supply("コーラ");
     expect(vm.stock.length).toEqual(1);
   });
 
@@ -155,7 +155,7 @@ describe("購入", () => {
     vm.insert(100);
     vm.insert(10);
     vm.insert(10);
-    vm.supply();
+    vm.supply("コーラ");
 
     expect(vm.sales).toEqual(120);
   });
@@ -166,11 +166,11 @@ describe("購入", () => {
     vm.insert(10);
     vm.insert(10);
     vm.insert(10);
-    vm.supply();
+    vm.supply("コーラ");
 
     expect(vm.refund()).toEqual(10);
   });
-  
+
   test("購入するジュースを選べる", () => {
     const vm = new VendingMachine(
       new Juices(
@@ -199,7 +199,7 @@ describe("購入", () => {
     vm.insert(10);
     vm.insert(10);
     vm.insert(10);
-    const [juice, remain] = vm.supply();
+    const [juice, remain] = vm.supply("コーラ");
     expect(juice).toBeInstanceOf(Juice);
   });
 
@@ -213,7 +213,7 @@ describe("購入", () => {
     const storage = vm.amountOfMoney;
     const sales = vm.sales;
 
-    const juice = vm.supply();
+    const juice = vm.supply("コーラ");
 
     expect(vm.stock.length).toEqual(stockLen);
     expect(vm.amountOfMoney).toEqual(storage);
@@ -229,7 +229,7 @@ describe("購入", () => {
     const storage = vm.amountOfMoney;
     const sales = vm.sales;
 
-    const juice = vm.supply();
+    const juice = vm.supply("コーラ");
 
     expect(vm.stock.length).toEqual(stockLen);
     expect(vm.amountOfMoney).toEqual(storage);
@@ -243,7 +243,7 @@ describe("購入", () => {
     vm.insert(100);
     vm.insert(50);
 
-    const [juice, remain] = vm.supply();
+    const [juice, remain] = vm.supply("水");
     expect(remain).toEqual(50);
   });
 });
