@@ -69,7 +69,7 @@ export class VendingMachine implements IVendingMachine {
   /**
    * 購入
    */
-  supply(): Juice {
+  supply(): [Juice, number] | undefined {
     if (!this.canSupply()) {
       return;
     }
@@ -77,7 +77,7 @@ export class VendingMachine implements IVendingMachine {
     const juice = this._stock.pop();
     this._sales += juice.price;
     this._amountOfMoney -= juice.price;
-    return juice;
+    return [juice, this._amountOfMoney];
   }
 
   /**
@@ -94,9 +94,9 @@ export class VendingMachine implements IVendingMachine {
    */
 
   suppliableJuiceTypes(): string[] {
-    const types = new Set<string>()
+    const types = new Set<string>();
     this.stock.forEach((juice, index) => {
-      if (this._amountOfMoney >=  juice.price) {
+      if (this._amountOfMoney >= juice.price) {
         types.add(juice.name);
       }
     });

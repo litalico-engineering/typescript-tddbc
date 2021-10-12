@@ -217,12 +217,12 @@ describe("購入", () => {
   test("150円投入で水を購入した場合、釣り銭50円が出力される", () => {
     const stocks = new Juices(new Juice("水", 100));
     const vm = new VendingMachine(stocks);
-    vm.insert(100)
-    vm.insert(50)
+    vm.insert(100);
+    vm.insert(50);
 
-    const [juice, remain] = vm.supply()
-    expect(remain).toEqual(50)
-  })
+    const [juice, remain] = vm.supply();
+    expect(remain).toEqual(50);
+  });
 });
 
 describe("ジュース", () => {
@@ -306,7 +306,7 @@ describe("購入可能なドリンク", () => {
   expect(types[0]).toEqual("コーラ");
   expect(types[1]).toEqual("レッドブル");
   expect(types[2]).toEqual("水");
-})
+});
 
 // ステップ3
 // - [x] 投入金額、在庫の点で、コーラが購入できるかどうかを取得できる。
