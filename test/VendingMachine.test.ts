@@ -170,6 +170,28 @@ describe("購入", () => {
 
     expect(vm.refund()).toEqual(10);
   });
+  
+  test("購入するジュースを選べる", () => {
+    const vm = new VendingMachine(
+      new Juices(
+        new Juice("コーラ", 120),
+        new Juice("コーラ", 120),
+        new Juice("水", 100),
+        new Juice("水", 100),
+        new Juice("レッドブル", 200),
+        new Juice("レッドブル", 200)
+      )
+    );
+    vm.insert(1000);
+
+    const [juice1, remain1] = vm.supply("コーラ");
+    const [juice2, remain2] = vm.supply("水");
+    const [juice3, remain3] = vm.supply("レッドブル");
+
+    expect(juice1.name).toEqual("コーラ");
+    expect(juice2.name).toEqual("水");
+    expect(juice3.name).toEqual("レッドブル");
+  });
 
   test("購入するとジュースが得られる", () => {
     const vm = new VendingMachine(stocks);
@@ -177,7 +199,8 @@ describe("購入", () => {
     vm.insert(10);
     vm.insert(10);
     vm.insert(10);
-    expect(vm.supply()).toBeInstanceOf(Juice);
+    const [juice, remain] = vm.supply();
+    expect(juice).toBeInstanceOf(Juice);
   });
 
   test("在庫がない場合", () => {
