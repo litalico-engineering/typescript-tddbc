@@ -56,7 +56,13 @@ export class VendingMachine {
    * @return true: できるよ！, false: できないぞ！
    */
   canSupply(name: string): boolean {
-    return this._amountOfMoney >= 120 && this._stock.length > 0;
+    const juice = this._stock.find((juice) => juice.name === name);
+
+    // 在庫がない場合
+    if (!juice) return false;
+
+    // 投入金額が充分か
+    return this._amountOfMoney >= juice.price;
   }
 
   /**
