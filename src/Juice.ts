@@ -8,4 +8,9 @@ export class Juice {
   }
 }
 
-export class Juices extends Array<Juice> {}
+export class Juices extends Array<Juice> {
+  public pickUp(name: string): Juice {
+    
+    return 
+  }
+}

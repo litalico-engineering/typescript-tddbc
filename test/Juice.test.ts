@@ -23,8 +23,8 @@ describe("new", () => {
 describe("pickUp", () => {
   test("コーラを排出する", () => {
     // ↓juicesにJuiceオブジェクトをpushする
-    const juicesBeforePickUp = [];
-    const juicesAfterPickUp = [];
+    const juicesBeforePickUp = [new Juice("水", 100), new Juice("コーラ", 120), new Juice("レッドブル", 200)];
+    const juicesAfterPickUp = [new Juice("水", 100), new Juice("レッドブル", 200)];
     const juices = new Juices(...juicesBeforePickUp);
     const result = juices.pickUp("コーラ").name;
     expect(result).toEqual("コーラ");

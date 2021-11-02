@@ -83,7 +83,7 @@ export class VendingMachine {
    * 在庫の補充
    * */
   restock(juices: Juices): void {
-    this._stock = [...this._stock, ...juices];
+    this._stock = new Juices(...this._stock, ...juices);
   }
 
   /**

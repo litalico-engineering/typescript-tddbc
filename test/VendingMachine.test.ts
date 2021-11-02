@@ -117,7 +117,7 @@ describe("購入できるか？", () => {
     });
 
     test("120円あり在庫なければコーラは買えない", () => {
-      const vm = new VendingMachine([]);
+      const vm = new VendingMachine([] as Juices);
       vm.insert(100);
       vm.insert(10);
       vm.insert(10);
@@ -125,7 +125,7 @@ describe("購入できるか？", () => {
     });
 
     test("110円あり在庫なければコーラは買えない", () => {
-      const vm = new VendingMachine([]);
+      const vm = new VendingMachine([] as Juices);
       vm.insert(100);
       vm.insert(10);
       expect(vm.canSupply("コーラ")).toEqual(false);
@@ -146,13 +146,13 @@ describe("購入できるか？", () => {
     });
 
     test("100円あり在庫なければ水は買えない", () => {
-      const vm = new VendingMachine([]);
+      const vm = new VendingMachine([] as Juices);
       vm.insert(100);
       expect(vm.canSupply("水")).toEqual(false);
     });
 
     test("10円あり在庫なければ水は買えない", () => {
-      const vm = new VendingMachine([]);
+      const vm = new VendingMachine([] as Juices);
       vm.insert(10);
       expect(vm.canSupply("水")).toEqual(false);
     });
@@ -174,14 +174,14 @@ describe("購入できるか？", () => {
     });
 
     test("200円あり在庫なければレッドブルは買えない", () => {
-      const vm = new VendingMachine([]);
+      const vm = new VendingMachine([] as Juices);
       vm.insert(100);
       vm.insert(100);
       expect(vm.canSupply("レッドブル")).toEqual(false);
     });
 
     test("150円あり在庫なければレッドブルは買えない", () => {
-      const vm = new VendingMachine([]);
+      const vm = new VendingMachine([] as Juices);
       vm.insert(100);
       vm.insert(50);
       expect(vm.canSupply("レッドブル")).toEqual(false);
@@ -265,7 +265,7 @@ describe("購入", () => {
   });
 
   test("在庫がない場合", () => {
-    const vm = new VendingMachine([]);
+    const vm = new VendingMachine([] as Juices);
     vm.insert(100);
     vm.insert(10);
     vm.insert(10);
