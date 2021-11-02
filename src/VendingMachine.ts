@@ -74,7 +74,6 @@ export class VendingMachine {
     }
 
     const juice = this._stock.find((juice) => juice.name === name);
-    //TODO: この↑のJuiceをstockからいい感じにとってくるなんかを実装する
     this._sales += juice.price;
     this._amountOfMoney -= juice.price;
     return [juice, this._amountOfMoney];
