@@ -92,40 +92,101 @@ describe("購入できるか？", () => {
     new Juice("コーラ", 120),
     new Juice("コーラ", 120),
     new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120)
+    new Juice("水", 100),
+    new Juice("水", 100),
+    new Juice("水", 100),
+    new Juice("水", 100),
+    new Juice("レッドブル", 200),
+    new Juice("レッドブル", 200),
   );
 
-  test("金額が条件を満たしていれば購入できる", () => {
-    const vm = new VendingMachine(stocks);
-    vm.insert(100);
-    vm.insert(10);
-    vm.insert(10);
-    expect(vm.canSupply("コーラ")).toEqual(true);
-  });
+  describe("コーラ", () => {
+    test("120円あり在庫があればコーラが買える", () => {
+      const vm = new VendingMachine(stocks);
+      vm.insert(100);
+      vm.insert(10);
+      vm.insert(10);
+      expect(vm.canSupply("コーラ")).toEqual(true);
+    });
 
-  test("金額が条件を満たしていなければ購入できない", () => {
-    const vm = new VendingMachine(stocks);
-    vm.insert(100);
-    vm.insert(10);
-    expect(vm.canSupply("コーラ")).toEqual(false);
-  });
+    test("110円しか持ってなければ、在庫があってもコーラ買えない", () => {
+      const vm = new VendingMachine(stocks);
+      vm.insert(100);
+      vm.insert(10);
+      expect(vm.canSupply("コーラ")).toEqual(false);
+    });
 
-  test("在庫があるので購入できる", () => {
-    const vm = new VendingMachine(stocks);
-    vm.insert(100);
-    vm.insert(10);
-    vm.insert(10);
-    expect(vm.canSupply("コーラ")).toEqual(true);
-  });
+    test("120円あり在庫なければコーラは買えない", () => {
+      const vm = new VendingMachine([]);
+      vm.insert(100);
+      vm.insert(10);
+      vm.insert(10);
+      expect(vm.canSupply("コーラ")).toEqual(false);
+    });
 
-  test("在庫がないので購入できない", () => {
-    const vm = new VendingMachine([]);
-    vm.insert(100);
-    vm.insert(10);
-    vm.insert(10);
-    expect(vm.canSupply("コーラ")).toEqual(false);
-  });
+    test("110円あり在庫なければコーラは買えない", () => {
+      const vm = new VendingMachine([]);
+      vm.insert(100);
+      vm.insert(10);
+      expect(vm.canSupply("コーラ")).toEqual(false);
+    });
+  })
+
+  describe("水", () => {
+    test("100円あり在庫があれば水が買える", () => {
+      const vm = new VendingMachine(stocks);
+      vm.insert(100);
+      expect(vm.canSupply("水")).toEqual(true);
+    });
+
+    test("10円しか持ってなければ、在庫があっても水買えない", () => {
+      const vm = new VendingMachine(stocks);
+      vm.insert(10);
+      expect(vm.canSupply("水")).toEqual(false);
+    });
+
+    test("100円あり在庫なければ水は買えない", () => {
+      const vm = new VendingMachine([]);
+      vm.insert(100);
+      expect(vm.canSupply("水")).toEqual(false);
+    });
+
+    test("10円あり在庫なければ水は買えない", () => {
+      const vm = new VendingMachine([]);
+      vm.insert(10);
+      expect(vm.canSupply("水")).toEqual(false);
+    });
+  })
+
+  describe("レッドブル", () => {
+    test("200円あり在庫があればレッドブルが買える", () => {
+      const vm = new VendingMachine(stocks);
+      vm.insert(100);
+      vm.insert(100);
+      expect(vm.canSupply("レッドブル")).toEqual(true);
+    });
+
+    test("150円しか持ってなければ、在庫があってもレッドブル買えない", () => {
+      const vm = new VendingMachine(stocks);
+      vm.insert(100);
+      vm.insert(50);
+      expect(vm.canSupply("レッドブル")).toEqual(false);
+    });
+
+    test("200円あり在庫なければレッドブルは買えない", () => {
+      const vm = new VendingMachine([]);
+      vm.insert(100);
+      vm.insert(100);
+      expect(vm.canSupply("レッドブル")).toEqual(false);
+    });
+
+    test("150円あり在庫なければレッドブルは買えない", () => {
+      const vm = new VendingMachine([]);
+      vm.insert(100);
+      vm.insert(50);
+      expect(vm.canSupply("レッドブル")).toEqual(false);
+    });
+  })
 });
 
 describe("購入", () => {
@@ -349,5 +410,3 @@ describe("購入可能なドリンク", () => {
 // - [ ] ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、釣り銭（投入金額とジュース値段の差分）を出力する。
 //   - ジュースと投入金額が同じ場合、つまり、釣り銭0円の場合も、釣り銭0円と出力する。
 //   - 釣り銭の硬貨の種類は考慮しなくてよい。
-
-// TODO: canSupplyが正しく動いてることを検証するコーラ以外のテストケースを追加する
