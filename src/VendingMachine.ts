@@ -73,7 +73,7 @@ export class VendingMachine {
       return;
     }
 
-    const juice = this._stock.find((juice) => juice.name === name);
+    const juice = this._stock.pickUp(name);
     this._sales += juice.price;
     this._amountOfMoney -= juice.price;
     return [juice, this._amountOfMoney];
