@@ -10,7 +10,9 @@ export class Juice {
 
 export class Juices extends Array<Juice> {
   public pickUp(name: string): Juice {
-    
-    return 
+    const index = this.findIndex((v) => v.name === name);
+    const juice = this[index];
+    this.splice(index, 1);
+    return juice;
   }
 }
