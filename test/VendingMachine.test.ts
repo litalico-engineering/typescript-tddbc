@@ -97,7 +97,7 @@ describe("購入できるか？", () => {
     new Juice("水", 100),
     new Juice("水", 100),
     new Juice("レッドブル", 200),
-    new Juice("レッドブル", 200),
+    new Juice("レッドブル", 200)
   );
 
   describe("コーラ", () => {
@@ -130,7 +130,7 @@ describe("購入できるか？", () => {
       vm.insert(10);
       expect(vm.canSupply("コーラ")).toEqual(false);
     });
-  })
+  });
 
   describe("水", () => {
     test("100円あり在庫があれば水が買える", () => {
@@ -156,7 +156,7 @@ describe("購入できるか？", () => {
       vm.insert(10);
       expect(vm.canSupply("水")).toEqual(false);
     });
-  })
+  });
 
   describe("レッドブル", () => {
     test("200円あり在庫があればレッドブルが買える", () => {
@@ -186,7 +186,7 @@ describe("購入できるか？", () => {
       vm.insert(50);
       expect(vm.canSupply("レッドブル")).toEqual(false);
     });
-  })
+  });
 });
 
 describe("購入", () => {
@@ -307,6 +307,15 @@ describe("購入", () => {
     const [juice, remain] = vm.supply("水");
     expect(remain).toEqual(50);
   });
+
+  test("100円投入で水を購入した場合、釣り銭0円が出力される", () => {
+    const stocks = new Juices(new Juice("水", 100));
+    const vm = new VendingMachine(stocks);
+    vm.insert(100);
+
+    const [juice, remain] = vm.supply("水");
+    expect(remain).toEqual(0);
+  });
 });
 
 describe("ジュース", () => {
@@ -407,6 +416,6 @@ describe("購入可能なドリンク", () => {
 // - [x] 投入金額、在庫の点で購入可能なドリンクのリストを取得できる。
 
 // ステップ５
-// - [ ] ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、釣り銭（投入金額とジュース値段の差分）を出力する。
+// - [x] ジュース値段以上の投入金額が投入されている条件下で購入操作を行うと、釣り銭（投入金額とジュース値段の差分）を出力する。
 //   - ジュースと投入金額が同じ場合、つまり、釣り銭0円の場合も、釣り銭0円と出力する。
 //   - 釣り銭の硬貨の種類は考慮しなくてよい。
