@@ -1,14 +1,18 @@
-import { Juice, Juices } from "./Juice";
+import { Juice, JuiceLane, Juices, JuiceType } from "./Juice";
 
 type Money = 1 | 5 | 10 | 50 | 100 | 500 | 1000 | 2000 | 5000 | 10000;
 
 export class VendingMachine {
   private _amountOfMoney: number = 0;
   private _sales: number = 0;
-  private _stock: Juices = null;
+  private _stocks = {
+    "コーラ": new JuiceLane("コーラ"),
+    "レッドブル": new JuiceLane("レッドブル"),
+    "水": new JuiceLane("水"),
+  }
 
   constructor(stock: Juices = new Juices()) {
-    this._stock = stock;
+    this.restock(stock)
   }
 
   get amountOfMoney() {
@@ -16,7 +20,11 @@ export class VendingMachine {
   }
 
   get stock() {
-    return this._stock;
+    return [
+      ...this._stocks["コーラ"].array,
+      ...this._stocks["レッドブル"].array,
+      ...this._stocks["水"].array
+    ]
   }
 
   get sales() {
@@ -55,25 +63,18 @@ export class VendingMachine {
    *
    * @return true: できるよ！, false: できないぞ！
    */
-  canSupply(name: string): boolean {
-    const juice = this._stock.find((juice) => juice.name === name);
-
-    // 在庫がない場合
-    if (!juice) return false;
-
-    // 投入金額が充分か
-    return this._amountOfMoney >= juice.price;
+  canSupply(name: JuiceType): boolean {
+    const enoughMoney = this._amountOfMoney >= this._stocks[name].price
+    return this._stocks[name].canSupply && enoughMoney;
   }
 
   /**
    * 購入
    */
-  supply(name: string): [Juice, number] | undefined {
-    if (!this.canSupply(name)) {
-      return;
-    }
+  supply(name: JuiceType): [Juice, number] | undefined {
+    if (!this.canSupply(name)) return;
 
-    const juice = this._stock.pickUp(name);
+    const juice = this._stocks[name].pickup();
     this._sales += juice.price;
     this._amountOfMoney -= juice.price;
     return [juice, this._amountOfMoney];
@@ -83,7 +84,15 @@ export class VendingMachine {
    * 在庫の補充
    * */
   restock(juices: Juices): void {
-    this._stock = new Juices(...this._stock, ...juices);
+    const source = [...juices];
+    let j = source.pop()
+    while (j) {
+      if (j.name === "コーラ") this._stocks["コーラ"].restock([j])
+      else if (j.name === "レッドブル") this._stocks["レッドブル"].restock([j])
+      else if (j.name === "水") this._stocks["水"].restock([j])
+
+      j = source.pop()
+    }
   }
 
   /**
@@ -91,14 +100,9 @@ export class VendingMachine {
    *
    * @return 商品名の配列
    */
-
   suppliableJuiceTypes(): string[] {
-    const types = new Set<string>();
-    this.stock.forEach((juice, index) => {
-      if (this._amountOfMoney >= juice.price) {
-        types.add(juice.name);
-      }
-    });
-    return [...types.values()];
+    return Object.entries(this._stocks).
+      filter(([name, stock]) => stock.canSupply).
+      map(([name, _]) => name)
   }
 }
