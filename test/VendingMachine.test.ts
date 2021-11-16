@@ -1,8 +1,10 @@
 import { Bank, StandardBank } from "../src/money/Bank";
+import { Cola, Juice } from "../src/stock/Juice";
+import { StandardStorage, Storage } from "../src/stock/Storage";
 import { VendingMachine } from "../src/VendingMachine";
 
 test("newできる", () => {
-  const mock: Bank = {
+  const bankMock: Bank = {
     totalDeposit: function (): string {
       throw new Error("Function not implemented.");
     },
@@ -20,38 +22,51 @@ test("newできる", () => {
     },
   };
 
-  expect(new VendingMachine(mock)).toBeDefined();
+  const storageMock: Storage = {
+    add: function (cola: Cola): void {
+      throw new Error("Function not implemented.");
+    },
+    display: function (): { stock: number } & Juice {
+      throw new Error("Function not implemented.");
+    },
+  };
+
+  expect(new VendingMachine(bankMock, storageMock)).toBeDefined();
 });
 
 describe("購入前の金額投入", () => {
   let bank: Bank = null;
+  let storage: Storage = null;
   beforeEach(() => {
     bank = new StandardBank();
+    storage = new StandardStorage();
   });
 
   test("対応しているお金の投入", () => {
-    const vm = new VendingMachine(bank);
+    const vm = new VendingMachine(bank, storage);
     expect(vm.insert(10)).toBeNull();
   });
 
   test("非対応のお金を投入", () => {
-    const vm = new VendingMachine(bank);
+    const vm = new VendingMachine(bank, storage);
     expect(vm.insert(1)).toEqual(1);
   });
 
   test("投入金額の表示", () => {
-    const vm = new VendingMachine(bank);
+    const vm = new VendingMachine(bank, storage);
     vm.insert(10);
     expect(vm.amountOfMoney).toEqual(10);
   });
 
   test("払い戻し", () => {
-    const vm = new VendingMachine(bank);
+    const vm = new VendingMachine(bank, storage);
     vm.insert(10);
     const actual = { refund: vm.refund(), amount: vm.amountOfMoney };
     expect(actual).toEqual({ refund: 10, amount: 0 });
   });
 });
+
+describe("購入", () => {});
 
 // test("売上の表示", () => {
 //   const vm = new VendingMachine();
