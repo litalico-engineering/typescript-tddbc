@@ -1,53 +1,42 @@
+import { Bank } from "./money/Bank";
 import { Juice, Juices } from "./Juice";
 
-type Money = 1 | 5 | 10 | 50 | 100 | 500 | 1000 | 2000 | 5000 | 10000;
+export interface IVendingMachine {
+  readonly amountOfMoney: number;
+  readonly sales: number;
+  insert(money: Currency): Currency | null;
+  refund(): number;
+}
 
-export class VendingMachine {
-  private _amountOfMoney: number = 0;
-  private _sales: number = 0;
+export class VendingMachine implements IVendingMachine {
+  private _bank: Bank = null;
   private _stock: Juices = null;
 
-  constructor(stock: Juices = new Juices()) {
+  constructor(bank: Bank, stock = new Juices()) {
+    this._bank = bank;
     this._stock = stock;
   }
 
-  get amountOfMoney() {
-    return this._amountOfMoney;
+  get amountOfMoney(): number {
+    return Number(this._bank.totalDeposit());
   }
 
-  get stock() {
-    return this._stock;
-  }
-
-  get sales() {
-    return this._sales;
+  get sales(): number {
+    return Number(this._bank.totalSales());
   }
 
   /**
    * お金を投入する
    */
-  insert(money: Money): Money | null {
-    if (
-      money === 1 ||
-      money === 5 ||
-      money === 2000 ||
-      money === 5000 ||
-      money === 10000
-    ) {
-      return money;
-    }
-
-    this._amountOfMoney += money;
-    return null;
+  insert(money: Currency): Currency | null {
+    return this._bank.add(money);
   }
 
   /**
    * 払い戻し
    */
   refund() {
-    const change = this._amountOfMoney;
-    this._amountOfMoney = 0;
-    return change;
+    return this._bank.refund();
   }
 
   /**
@@ -62,7 +51,7 @@ export class VendingMachine {
     if (!juice) return false;
 
     // 投入金額が充分か
-    return this._amountOfMoney >= juice.price;
+    return Number(this._bank.totalDeposit()) >= juice.price;
   }
 
   /**
@@ -74,9 +63,8 @@ export class VendingMachine {
     }
 
     const juice = this._stock.pickUp(name);
-    this._sales += juice.price;
-    this._amountOfMoney -= juice.price;
-    return [juice, this._amountOfMoney];
+    const change = this._bank.buy(juice.price);
+    return [juice, change];
   }
 
   /**
@@ -94,8 +82,8 @@ export class VendingMachine {
 
   suppliableJuiceTypes(): string[] {
     const types = new Set<string>();
-    this.stock.forEach((juice, index) => {
-      if (this._amountOfMoney >= juice.price) {
+    this._stock.forEach((juice, index) => {
+      if (Number(this._bank.totalDeposit()) >= juice.price) {
         types.add(juice.name);
       }
     });
