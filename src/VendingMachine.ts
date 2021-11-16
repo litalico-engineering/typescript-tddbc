@@ -54,7 +54,7 @@ export class VendingMachine implements IVendingMachine {
     }
 
     // 投入金額に対して金額が不十分な場合
-    if (info.price > Number(this._bank.totalDeposit())) {
+    if (!this._bank.allowBuying(info.price)) {
       return false;
     }
 

@@ -85,3 +85,17 @@ describe("#buy", () => {
     expect(actual).toEqual(90);
   });
 });
+
+describe("#allowBuying", () => {
+  test("投入金額が購入金額以上であれば購入できる", () => {
+    const bank = new StandardBank();
+    bank.add(100);
+    expect(bank.allowBuying(100)).toBeTruthy();
+  });
+
+  test("投入金額が購入金額満たない場合購入できない", () => {
+    const bank = new StandardBank();
+    bank.add(100);
+    expect(bank.allowBuying(120)).toBeFalsy();
+  });
+});

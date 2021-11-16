@@ -5,6 +5,7 @@ export interface Bank {
   add(currency: Currency): Currency | null;
   buy(price: number): number;
   refund(): number;
+  allowBuying(price: number): boolean;
 }
 
 export class StandardBank implements Bank {
@@ -38,6 +39,10 @@ export class StandardBank implements Bank {
 
   totalSales(): string {
     return this._sales.toString();
+  }
+
+  allowBuying(price: number): boolean {
+    return this._temporaryDeposit >= price;
   }
 
   private checkSupport(currency: Currency) {

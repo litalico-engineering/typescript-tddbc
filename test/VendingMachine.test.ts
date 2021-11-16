@@ -20,6 +20,9 @@ test("newできる", () => {
     refund: function (): number {
       throw new Error("Function not implemented.");
     },
+    allowBuying: function (price: number): boolean {
+      throw new Error("Function not implemented.");
+    }
   };
 
   const storageMock: Storage = {
