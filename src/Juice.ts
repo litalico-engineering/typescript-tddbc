@@ -14,6 +14,10 @@ export class Juice {
     else if (type === "レッドブル") return new Juice("レッドブル", 200)
     else if (type === "水") return new Juice("水", 100)
   }
+
+  static GenerateMulti(type: JuiceType, count: number): Juice[] {
+    return [...Array(count)].map(() => Juice.Generate(type))
+  }
 }
 
 export class JuiceLane {
@@ -22,9 +26,7 @@ export class JuiceLane {
 
   constructor(type: JuiceType, count?: number) {
     this.type = type;
-    if (count) {
-      this.stock = [...Array(count)].map(() => Juice.Generate(this.type))
-    }
+    if (count) this.stock = Juice.GenerateMulti(this.type, count)
   }
 
   get canSupply() {
