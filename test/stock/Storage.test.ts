@@ -1,4 +1,4 @@
-import { Cola } from "../../src/stock/Juice";
+import { Cola, Juice, RedBull, Water } from "../../src/stock/Juice";
 import { StandardStorage } from "../../src/stock/Storage";
 
 describe("#display", () => {
@@ -10,10 +10,34 @@ describe("#display", () => {
 });
 
 describe("#add", () => {
-  const storage = new StandardStorage();
+  let storage: StandardStorage = null;
+  beforeEach(() => {
+    storage = new StandardStorage();
+  });
+
   test("コーラを格納できる", () => {
     storage.add(new Cola());
     expect(storage.display().stock).toEqual(6);
+  });
+
+  test("レッドブルを格納できる", () => {
+    storage.add(new RedBull());
+    expect(storage.display().stock).toEqual(6);
+  });
+
+  test("水を格納できる", () => {
+    storage.add(new Water());
+    expect(storage.display().stock).toEqual(6);
+  });
+
+  test("力水は格納できない", () => {
+    const chikaramizu: Juice = {
+      name: "力水",
+      price: 100,
+    };
+
+    storage.add(chikaramizu);
+    expect(storage.display().stock).toEqual(5);
   });
 });
 

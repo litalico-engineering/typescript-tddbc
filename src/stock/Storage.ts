@@ -1,8 +1,8 @@
-import { Juice, Cola } from "./Juice";
+import { Juice, Cola, RedBull, Water } from "./Juice";
 
 // 自販機で管理する商品を管理するinterface
 export interface Storage {
-  add(cola: Cola): void;
+  add(juice: Juice): void;
   display(): { stock: number } & Juice;
   inStock(): boolean;
   pickup(): Juice;
@@ -19,8 +19,14 @@ export class StandardStorage implements Storage {
     return this.display().stock > 0;
   }
 
-  add(cola: Cola): void {
-    this._stock.push(cola);
+  add(juice: Juice): void {
+    if (
+      juice instanceof Cola ||
+      juice instanceof RedBull ||
+      juice instanceof Water
+    ) {
+      this._stock.push(juice);
+    }
   }
 
   display(): { stock: number } & Juice {
