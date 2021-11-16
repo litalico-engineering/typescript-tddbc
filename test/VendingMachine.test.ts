@@ -66,7 +66,42 @@ describe("購入前の金額投入", () => {
   });
 });
 
-describe("購入", () => {});
+describe("購入", () => {
+  test("在庫が無い場合購入できない", () => {
+    const bank = new StandardBank();
+    const emptyStorage: Storage = {
+      add: function (cola: Cola): void {
+        throw new Error("Function not implemented.");
+      },
+      display: function (): { stock: number } & Juice {
+        return { name: "コーラ", price: 100, stock: 0 };
+      },
+    };
+
+    const vm = new VendingMachine(bank, emptyStorage);
+    expect(vm.canSupply("コーラ")).toBeFalsy();
+  });
+
+  test("投入金額が購入金額に満たない場合購入できない", () => {
+    const bank = new StandardBank();
+    const storage = new StandardStorage();
+    const vm = new VendingMachine(bank, storage);
+
+    expect(vm.canSupply("コーラ")).toBeFalsy();
+  });
+
+  test("在庫があり、投入金額が購入金額以上であれば購入できる", () => {
+    const bank = new StandardBank();
+    const storage = new StandardStorage();
+    const vm = new VendingMachine(bank, storage);
+
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+
+    expect(vm.canSupply("コーラ")).toBeTruthy();
+  });
+});
 
 // test("売上の表示", () => {
 //   const vm = new VendingMachine();

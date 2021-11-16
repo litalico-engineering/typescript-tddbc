@@ -6,6 +6,7 @@ export interface IVendingMachine {
   readonly sales: number;
   insert(money: Currency): Currency | null;
   refund(): number;
+  canSupply(name: string): boolean;
 }
 
 export class VendingMachine implements IVendingMachine {
@@ -39,20 +40,26 @@ export class VendingMachine implements IVendingMachine {
     return this._bank.refund();
   }
 
-  // /**
-  //  * 購入できる？
-  //  *
-  //  * @return true: できるよ！, false: できないぞ！
-  //  */
-  // canSupply(name: string): boolean {
-  //   const juice = this._stock.find((juice) => juice.name === name);
+  /**
+   * 購入できる？
+   *
+   * @return true: できるよ！, false: できないぞ！
+   */
+  canSupply(name: string): boolean {
+    const info = this._storage.display();
 
-  //   // 在庫がない場合
-  //   if (!juice) return false;
+    // 在庫がない場合
+    if (info.stock === 0) {
+      return false;
+    }
 
-  //   // 投入金額が充分か
-  //   return Number(this._bank.totalDeposit()) >= juice.price;
-  // }
+    // 投入金額に対して金額が不十分な場合
+    if (info.price > Number(this._bank.totalDeposit())) {
+      return false;
+    }
+
+    return true;
+  }
 
   // /**
   //  * 購入
