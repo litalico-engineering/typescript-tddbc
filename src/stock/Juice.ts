@@ -4,6 +4,10 @@ export type Juice = {
 };
 
 export class Cola implements Juice {
-  name: "コーラ";
-  price: 120;
+  get name(): string {
+    return "コーラ";
+  }
+  get price(): number {
+    return 120;
+  }
 }

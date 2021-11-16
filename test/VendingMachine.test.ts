@@ -29,7 +29,7 @@ test("newできる", () => {
     add: function (cola: Cola): void {
       throw new Error("Function not implemented.");
     },
-    display: function (): { stock: number; } & Juice {
+    display: function (): { stock: number } & Juice {
       throw new Error("Function not implemented.");
     },
     inStock: function (): boolean {
@@ -37,7 +37,7 @@ test("newできる", () => {
     },
     pickup: function (): Juice {
       throw new Error("Function not implemented.");
-    }
+    },
   };
 
   expect(new VendingMachine(bankMock, storageMock)).toBeDefined();
@@ -75,14 +75,14 @@ describe("購入前の金額投入", () => {
   });
 });
 
-describe("購入", () => {
+describe("購入可不可判別", () => {
   test("在庫が無い場合購入できない", () => {
     const bank = new StandardBank();
     const emptyStorage: Storage = {
       add: function (cola: Cola): void {
         throw new Error("Function not implemented.");
       },
-      display: function (): { stock: number; } & Juice {
+      display: function (): { stock: number } & Juice {
         return { name: "コーラ", price: 100, stock: 0 };
       },
       inStock: function (): boolean {
@@ -90,7 +90,7 @@ describe("購入", () => {
       },
       pickup: function (): Juice {
         throw new Error("Function not implemented.");
-      }
+      },
     };
 
     const vm = new VendingMachine(bank, emptyStorage);
@@ -118,10 +118,40 @@ describe("購入", () => {
   });
 });
 
-// test("売上の表示", () => {
-//   const vm = new VendingMachine();
-//   expect(vm.sales).toEqual(0);
-// });
+describe("購入", () => {
+  test("購入操作をするとジュースとお釣りが取得できる", () => {
+    const bank = new StandardBank();
+    const storage = new StandardStorage();
+    const vm = new VendingMachine(bank, storage);
+
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+    vm.insert(10);
+
+    const [juice, change] = vm.supply("コーラ");
+    expect(juice.name).toEqual("コーラ");
+    expect(change).toEqual(10);
+  });
+
+  test("売上が増えている", () => {
+    const bank = new StandardBank();
+    const storage = new StandardStorage();
+    const vm = new VendingMachine(bank, storage);
+
+    const beforeSales = vm.sales;
+
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+    vm.supply("コーラ");
+
+    const afterSales = vm.sales;
+
+    const actual = { before: beforeSales, after: afterSales };
+    expect(actual).toEqual({ before: 0, after: 120 });
+  });
+});
 
 // describe("在庫", () => {
 //   const stocks = new Juices(
