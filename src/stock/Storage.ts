@@ -3,9 +3,9 @@ import { Juice, Cola, RedBull, Water } from "./Juice";
 // 自販機で管理する商品を管理するinterface
 export interface Storage {
   add(juice: Juice): void;
-  display(): { stock: number } & Juice;
-  inStock(): boolean;
-  pickup(): Juice;
+  display(): ({ stock: number } & Juice)[];
+  inStock(): { name: string; price: number }[];
+  pickup(name: string): Juice;
 }
 
 export class StandardStorage implements Storage {
@@ -15,8 +15,12 @@ export class StandardStorage implements Storage {
     this._stock = [new Cola(), new Cola(), new Cola(), new Cola(), new Cola()];
   }
 
-  inStock(): boolean {
-    return this.display().stock > 0;
+  inStock(): { name: string; price: number }[] {
+    return this.display()
+      .filter((info) => info.stock > 0)
+      .map((info) => {
+        return { name: info.name, price: info.price };
+      });
   }
 
   add(juice: Juice): void {
@@ -29,24 +33,40 @@ export class StandardStorage implements Storage {
     }
   }
 
-  display(): { stock: number } & Juice {
-    return {
-      name: "コーラ",
-      price: 120,
-      stock: this._stock.length,
-    };
+  display(): ({ stock: number } & Juice)[] {
+    const waterInfo = this._stock.filter((juice) => juice instanceof Water);
+
+    const colaInfo = this._stock.filter((juice) => juice instanceof Cola);
+
+    const redBullInfo = this._stock.filter((juice) => juice instanceof RedBull);
+
+    const water = new Water();
+    const cola = new Cola();
+    const redBull = new RedBull();
+
+    return [
+      {
+        name: water.name,
+        price: water.price,
+        stock: waterInfo.length,
+      },
+      {
+        name: cola.name,
+        price: cola.price,
+        stock: colaInfo.length,
+      },
+      {
+        name: redBull.name,
+        price: redBull.price,
+        stock: redBullInfo.length,
+      },
+    ];
   }
 
-  pickup(): Juice {
-    return this._stock.pop();
+  pickup(name: string): Juice {
+    const index = this._stock.findIndex((v) => v.name === name);
+    const juice = this._stock[index];
+    this._stock.splice(index, 1);
+    return juice;
   }
 }
-
-// export class Juices extends Array<Juice> {
-//   public pickUp(name: string): Juice {
-//     const index = this.findIndex((v) => v.name === name);
-//     const juice = this[index];
-//     this.splice(index, 1);
-//     return juice;
-//   }
-// }
