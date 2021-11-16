@@ -23,3 +23,16 @@ describe("#inStock", () => {
     expect(storage.inStock()).toBeTruthy();
   });
 });
+
+describe("#pickup", () => {
+  const storage = new StandardStorage();
+  test("pickupすると在庫が減る", () => {
+    storage.pickup();
+    expect(storage.display().stock).toEqual(4);
+  });
+
+  test("pickupするとコーラを得られる", () => {
+    const result = storage.pickup();
+    expect(result.name).toEqual("コーラ");
+  });
+});

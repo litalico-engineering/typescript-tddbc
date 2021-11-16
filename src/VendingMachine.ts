@@ -1,4 +1,5 @@
 import { Bank } from "./money/Bank";
+import { Juice } from "./stock/Juice";
 import { Storage } from "./stock/Storage";
 
 export interface IVendingMachine {
@@ -50,18 +51,18 @@ export class VendingMachine implements IVendingMachine {
     return this._storage.inStock && this._bank.allowBuying(info.price);
   }
 
-  // /**
-  //  * 購入
-  //  */
-  // supply(name: string): [Juice, number] | undefined {
-  //   if (!this.canSupply(name)) {
-  //     return;
-  //   }
+  /**
+   * 購入
+   */
+  supply(name: string): [Juice, number] | undefined {
+    if (!this.canSupply(name)) {
+      return;
+    }
 
-  //   const juice = this._stock.pickUp(name);
-  //   const change = this._bank.buy(juice.price);
-  //   return [juice, change];
-  // }
+    const juice = this._storage.pickup();
+    const change = this._bank.buy(juice.price);
+    return [juice, change];
+  }
 
   // /**
   //  * 在庫の補充

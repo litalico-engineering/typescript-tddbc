@@ -5,6 +5,7 @@ export interface Storage {
   add(cola: Cola): void;
   display(): { stock: number } & Juice;
   inStock(): boolean;
+  pickup(): Juice;
 }
 
 export class StandardStorage implements Storage {
@@ -28,6 +29,10 @@ export class StandardStorage implements Storage {
       price: 120,
       stock: this._stock.length,
     };
+  }
+
+  pickup(): Juice {
+    return this._stock.pop();
   }
 }
 

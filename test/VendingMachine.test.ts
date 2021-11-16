@@ -29,12 +29,15 @@ test("newできる", () => {
     add: function (cola: Cola): void {
       throw new Error("Function not implemented.");
     },
-    display: function (): { stock: number } & Juice {
+    display: function (): { stock: number; } & Juice {
       throw new Error("Function not implemented.");
     },
     inStock: function (): boolean {
       throw new Error("Function not implemented.");
     },
+    pickup: function (): Juice {
+      throw new Error("Function not implemented.");
+    }
   };
 
   expect(new VendingMachine(bankMock, storageMock)).toBeDefined();
@@ -79,12 +82,15 @@ describe("購入", () => {
       add: function (cola: Cola): void {
         throw new Error("Function not implemented.");
       },
-      display: function (): { stock: number } & Juice {
+      display: function (): { stock: number; } & Juice {
         return { name: "コーラ", price: 100, stock: 0 };
       },
       inStock: function (): boolean {
         return false;
       },
+      pickup: function (): Juice {
+        throw new Error("Function not implemented.");
+      }
     };
 
     const vm = new VendingMachine(bank, emptyStorage);
