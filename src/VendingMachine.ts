@@ -1,68 +1,46 @@
-import { Juice, Juices } from "./Juice";
+import { Bank } from "./money/Bank";
+import { Juice } from "./stock/Juice";
+import { Storage } from "./stock/Storage";
 
-type Money = 1 | 5 | 10 | 50 | 100 | 500 | 1000 | 2000 | 5000 | 10000;
+export interface IVendingMachine {
+  readonly amountOfMoney: number;
+  readonly sales: number;
+  insert(money: Currency): Currency | null;
+  refund(): number;
+  supply(name: string): [Juice, number] | undefined;
+  canSupply(name: string): boolean;
+  suppliableJuiceNames(): string[];
+}
 
-export class VendingMachine {
-  private _amountOfMoney: number = 0;
-  private _sales: number = 0;
-  private _stock: Juices = null;
+export class VendingMachine implements IVendingMachine {
+  private _bank: Bank = null;
+  private _storage: Storage = null;
 
-  constructor(stock: Juices = new Juices()) {
-    this._stock = stock;
+  constructor(bank: Bank, storage: Storage) {
+    this._bank = bank;
+    this._storage = storage;
   }
 
-  get amountOfMoney() {
-    return this._amountOfMoney;
+  get amountOfMoney(): number {
+    return Number(this._bank.totalDeposit());
   }
 
-  get stock() {
-    return this._stock;
-  }
-
-  get sales() {
-    return this._sales;
+  get sales(): number {
+    return Number(this._bank.totalSales());
   }
 
   /**
    * お金を投入する
    */
-  insert(money: Money): Money | null {
-    if (
-      money === 1 ||
-      money === 5 ||
-      money === 2000 ||
-      money === 5000 ||
-      money === 10000
-    ) {
-      return money;
-    }
-
-    this._amountOfMoney += money;
-    return null;
+  insert(money: Currency): Currency | null {
+    return this._bank.add(money);
   }
 
   /**
    * 払い戻し
    */
   refund() {
-    const change = this._amountOfMoney;
-    this._amountOfMoney = 0;
-    return change;
-  }
-
-  /**
-   * 購入できる？
-   *
-   * @return true: できるよ！, false: できないぞ！
-   */
-  canSupply(name: string): boolean {
-    const juice = this._stock.find((juice) => juice.name === name);
-
-    // 在庫がない場合
-    if (!juice) return false;
-
-    // 投入金額が充分か
-    return this._amountOfMoney >= juice.price;
+    return this._bank.refund();
   }
 
   /**
@@ -73,32 +51,27 @@ export class VendingMachine {
       return;
     }
 
-    const juice = this._stock.pickUp(name);
-    this._sales += juice.price;
-    this._amountOfMoney -= juice.price;
-    return [juice, this._amountOfMoney];
+    const juice = this._storage.pickup(name);
+    const change = this._bank.buy(juice.price);
+    return [juice, change];
   }
 
   /**
-   * 在庫の補充
-   * */
-  restock(juices: Juices): void {
-    this._stock = new Juices(...this._stock, ...juices);
-  }
-
-  /**
-   * 購入できる商品名返す
+   * 購入できる？
    *
-   * @return 商品名の配列
+   * @return true: できるよ！, false: できないぞ！
    */
+  canSupply(name: string): boolean {
+    return this.suppliableJuiceNames().includes(name);
+  }
 
-  suppliableJuiceTypes(): string[] {
-    const types = new Set<string>();
-    this.stock.forEach((juice, index) => {
-      if (this._amountOfMoney >= juice.price) {
-        types.add(juice.name);
-      }
-    });
-    return [...types.values()];
+  /**
+   * 購入可能なジュースのリストの取得
+   */
+  suppliableJuiceNames(): string[] {
+    return this._storage
+      .inStock()
+      .filter((juice) => this._bank.allowBuying(juice.price))
+      .map((juice) => juice.name);
   }
 }
