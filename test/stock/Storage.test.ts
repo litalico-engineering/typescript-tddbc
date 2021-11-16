@@ -16,3 +16,10 @@ describe("#add", () => {
     expect(storage.display().stock).toEqual(6);
   });
 });
+
+describe("#inStock", () => {
+  const storage = new StandardStorage();
+  test("在庫が0以上であれば購入できる", () => {
+    expect(storage.inStock()).toBeTruthy();
+  });
+});

@@ -22,7 +22,7 @@ test("newできる", () => {
     },
     allowBuying: function (price: number): boolean {
       throw new Error("Function not implemented.");
-    }
+    },
   };
 
   const storageMock: Storage = {
@@ -30,6 +30,9 @@ test("newできる", () => {
       throw new Error("Function not implemented.");
     },
     display: function (): { stock: number } & Juice {
+      throw new Error("Function not implemented.");
+    },
+    inStock: function (): boolean {
       throw new Error("Function not implemented.");
     },
   };
@@ -78,6 +81,9 @@ describe("購入", () => {
       },
       display: function (): { stock: number } & Juice {
         return { name: "コーラ", price: 100, stock: 0 };
+      },
+      inStock: function (): boolean {
+        return false;
       },
     };
 

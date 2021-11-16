@@ -47,18 +47,7 @@ export class VendingMachine implements IVendingMachine {
    */
   canSupply(name: string): boolean {
     const info = this._storage.display();
-
-    // 在庫がない場合
-    if (info.stock === 0) {
-      return false;
-    }
-
-    // 投入金額に対して金額が不十分な場合
-    if (!this._bank.allowBuying(info.price)) {
-      return false;
-    }
-
-    return true;
+    return this._storage.inStock && this._bank.allowBuying(info.price);
   }
 
   // /**

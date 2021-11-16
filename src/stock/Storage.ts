@@ -4,6 +4,7 @@ import { Juice, Cola } from "./Juice";
 export interface Storage {
   add(cola: Cola): void;
   display(): { stock: number } & Juice;
+  inStock(): boolean;
 }
 
 export class StandardStorage implements Storage {
@@ -11,6 +12,10 @@ export class StandardStorage implements Storage {
 
   constructor() {
     this._stock = [new Cola(), new Cola(), new Cola(), new Cola(), new Cola()];
+  }
+
+  inStock(): boolean {
+    return this.display().stock > 0;
   }
 
   add(cola: Cola): void {
