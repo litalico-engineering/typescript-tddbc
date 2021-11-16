@@ -67,11 +67,7 @@ test("売上", () => {
 
 describe("在庫", () => {
   const stocks = new Juices(
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120)
+    ...Juice.GenerateMulti("コーラ", 5)
   );
   const vm = new VendingMachine(stocks);
 
@@ -89,15 +85,9 @@ describe("在庫", () => {
 
 describe("購入できるか？", () => {
   const stocks = new Juices(
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("水", 100),
-    new Juice("水", 100),
-    new Juice("水", 100),
-    new Juice("水", 100),
-    new Juice("レッドブル", 200),
-    new Juice("レッドブル", 200)
+    ...Juice.GenerateMulti("コーラ", 3),
+    ...Juice.GenerateMulti("水", 3),
+    ...Juice.GenerateMulti("レッドブル", 3),
   );
 
   describe("コーラ", () => {
@@ -191,17 +181,12 @@ describe("購入できるか？", () => {
 
 describe("購入", () => {
   const stocks = new Juices(
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120),
-    new Juice("コーラ", 120)
+    ...Juice.GenerateMulti("コーラ", 5)
   );
 
   test("購入すると在庫が1つ減る", () => {
     const stocks = new Juices(
-      new Juice("コーラ", 120),
-      new Juice("コーラ", 120)
+      ...Juice.GenerateMulti("コーラ", 2)
     );
     const vm = new VendingMachine(stocks);
     vm.insert(100);
@@ -235,12 +220,9 @@ describe("購入", () => {
   test("購入するジュースを選べる", () => {
     const vm = new VendingMachine(
       new Juices(
-        new Juice("コーラ", 120),
-        new Juice("コーラ", 120),
-        new Juice("水", 100),
-        new Juice("水", 100),
-        new Juice("レッドブル", 200),
-        new Juice("レッドブル", 200)
+        ...Juice.GenerateMulti("コーラ", 2),
+        ...Juice.GenerateMulti("水", 2),
+        ...Juice.GenerateMulti("レッドブル", 2),
       )
     );
     vm.insert(1000);
@@ -283,7 +265,7 @@ describe("購入", () => {
   });
 
   test("投入金額が足りない場合", () => {
-    const stocks = new Juices(new Juice("コーラ", 120));
+    const stocks = new Juices(Juice.Generate("コーラ"));
     const vm = new VendingMachine(stocks);
 
     const stockLen = vm.stock.length;
@@ -299,7 +281,7 @@ describe("購入", () => {
   });
 
   test("150円投入で水を購入した場合、釣り銭50円が出力される", () => {
-    const stocks = new Juices(new Juice("水", 100));
+    const stocks = new Juices(Juice.Generate("水"));
     const vm = new VendingMachine(stocks);
     vm.insert(100);
     vm.insert(50);
@@ -309,7 +291,7 @@ describe("購入", () => {
   });
 
   test("100円投入で水を購入した場合、釣り銭0円が出力される", () => {
-    const stocks = new Juices(new Juice("水", 100));
+    const stocks = new Juices(Juice.Generate("水"));
     const vm = new VendingMachine(stocks);
     vm.insert(100);
 
@@ -320,26 +302,22 @@ describe("購入", () => {
 
 describe("ジュース", () => {
   test("名前がある", () => {
-    const juice = new Juice("コーラ", 120);
+    const juice = Juice.Generate("コーラ")
     expect(juice.name).toEqual("コーラ");
   });
 
   test("値段がある", () => {
-    const juice = new Juice("コーラ", 120);
+    const juice = Juice.Generate("コーラ")
     expect(juice.price).toEqual(120);
   });
 });
 
 describe("ジュース補充", () => {
   test("レッドブルが5本追加できる", () => {
-    const vm = new VendingMachine(new Juices(new Juice("コーラ", 120)));
+    const vm = new VendingMachine(new Juices(Juice.Generate("コーラ")));
     vm.restock(
       new Juices(
-        new Juice("レッドブル", 200),
-        new Juice("レッドブル", 200),
-        new Juice("レッドブル", 200),
-        new Juice("レッドブル", 200),
-        new Juice("レッドブル", 200)
+        ...Juice.GenerateMulti("レッドブル", 5)
       )
     );
 
@@ -361,15 +339,11 @@ describe("ジュース補充", () => {
 
   test("更に水5本を追加できる", () => {
     const vm = new VendingMachine(
-      new Juices(new Juice("コーラ", 120), new Juice("レッドブル", 200))
+      new Juices(Juice.Generate("コーラ"), Juice.Generate("レッドブル"))
     );
     vm.restock(
       new Juices(
-        new Juice("水", 100),
-        new Juice("水", 100),
-        new Juice("水", 100),
-        new Juice("水", 100),
-        new Juice("水", 100)
+        ...Juice.GenerateMulti("水", 5)
       )
     );
     expect(vm.stock.length).toEqual(7);
@@ -384,12 +358,9 @@ describe("ジュース補充", () => {
 describe("購入可能なドリンク", () => {
   const vm = new VendingMachine(
     new Juices(
-      new Juice("コーラ", 120),
-      new Juice("コーラ", 120),
-      new Juice("レッドブル", 200),
-      new Juice("レッドブル", 200),
-      new Juice("水", 100),
-      new Juice("水", 100)
+      ...Juice.GenerateMulti("コーラ", 2),
+      ...Juice.GenerateMulti("水", 2),
+      ...Juice.GenerateMulti("レッドブル", 2),
     )
   );
 
