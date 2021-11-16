@@ -71,8 +71,17 @@ describe("#totalSales", () => {
 describe("#buy", () => {
   const bank = new StandardBank();
   bank.add(100);
-  bank.buy(10);
+  const actual = bank.buy(10);
 
-  const actual = { deposit: bank.totalDeposit(), sales: bank.totalSales() };
-  expect(actual).toEqual({ deposit: "90", sales: "10" });
+  test("購入をすると合計売上金額が購入金額分増える", () => {
+    expect(bank.totalSales()).toEqual("10");
+  });
+
+  test("購入をすると一時預かり金が0になる", () => {
+    expect(bank.totalDeposit()).toEqual("0");
+  });
+
+  test("購入をすると、投入金額と購入金額の差額が返却される", () => {
+    expect(actual).toEqual(90);
+  });
 });

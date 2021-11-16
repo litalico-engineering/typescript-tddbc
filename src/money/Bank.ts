@@ -23,7 +23,7 @@ export class StandardBank implements Bank {
   buy(price: number): number {
     this._temporaryDeposit -= price;
     this._sales += price;
-    return 0;
+    return this.refund();
   }
 
   refund(): number {
