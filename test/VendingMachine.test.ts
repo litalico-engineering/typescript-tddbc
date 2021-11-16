@@ -1,5 +1,5 @@
 import { Bank, StandardBank } from "../src/money/Bank";
-import { Cola, Juice } from "../src/stock/Juice";
+import { Cola, Juice, Water } from "../src/stock/Juice";
 import { StandardStorage, Storage } from "../src/stock/Storage";
 import { VendingMachine } from "../src/VendingMachine";
 
@@ -29,13 +29,13 @@ test("newできる", () => {
     add: function (cola: Cola): void {
       throw new Error("Function not implemented.");
     },
-    display: function (): { stock: number } & Juice {
-      throw new Error("Function not implemented.");
-    },
-    inStock: function (): boolean {
-      throw new Error("Function not implemented.");
-    },
     pickup: function (): Juice {
+      throw new Error("Function not implemented.");
+    },
+    display: function (): ({ stock: number } & Juice)[] {
+      throw new Error("Function not implemented.");
+    },
+    inStock: function (): { name: string; price: number }[] {
       throw new Error("Function not implemented.");
     },
   };
@@ -76,33 +76,18 @@ describe("購入前の金額投入", () => {
 });
 
 describe("購入可不可判別", () => {
-  test("在庫が無い場合購入できない", () => {
-    const bank = new StandardBank();
-    const emptyStorage: Storage = {
-      add: function (cola: Cola): void {
-        throw new Error("Function not implemented.");
-      },
-      display: function (): { stock: number } & Juice {
-        return { name: "コーラ", price: 100, stock: 0 };
-      },
-      inStock: function (): boolean {
-        return false;
-      },
-      pickup: function (): Juice {
-        throw new Error("Function not implemented.");
-      },
-    };
-
-    const vm = new VendingMachine(bank, emptyStorage);
-    expect(vm.canSupply("コーラ")).toBeFalsy();
-  });
-
-  test("投入金額が購入金額に満たない場合購入できない", () => {
+  test("購入可能なジュースのリストが得られる", () => {
     const bank = new StandardBank();
     const storage = new StandardStorage();
     const vm = new VendingMachine(bank, storage);
 
-    expect(vm.canSupply("コーラ")).toBeFalsy();
+    storage.add(new Water());
+
+    vm.insert(100);
+    vm.insert(10);
+    vm.insert(10);
+
+    expect(vm.suppliableJuiceNames()).toEqual(["水", "コーラ"]);
   });
 
   test("在庫があり、投入金額が購入金額以上であれば購入できる", () => {
