@@ -9,10 +9,18 @@ export class Juice {
     this.price = price;
   }
 
+  static PriceFor(type: JuiceType): number {
+    return {
+      "コーラ": 120,
+      "レッドブル": 200,
+      "水": 100,
+    }[type]
+  }
+
   static Generate(type: JuiceType): Juice {
-    if (type === "コーラ") return new Juice("コーラ", 120)
-    else if (type === "レッドブル") return new Juice("レッドブル", 200)
-    else if (type === "水") return new Juice("水", 100)
+    if (type === "コーラ") return new Juice("コーラ", this.PriceFor("コーラ"))
+    else if (type === "レッドブル") return new Juice("レッドブル", this.PriceFor("レッドブル"))
+    else if (type === "水") return new Juice("水", this.PriceFor("水"))
   }
 
   static GenerateMulti(type: JuiceType, count: number): Juice[] {
@@ -34,8 +42,7 @@ export class JuiceLane {
   }
 
   get price() {
-    // TODO: 毎回生成してて環境に良くないのでなんとか
-    return Juice.Generate(this.type).price;
+    return Juice.PriceFor(this.type)
   }
 
   get array() {
